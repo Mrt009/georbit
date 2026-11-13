@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Georbit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --pink: #7C3AED; --text-primary: #F0F0F0; --text-secondary: #BBB; --text-muted: #999;
+      --bg-body: #0D0D0D; --bg-header: rgba(0,0,0,0.65); --bg-card: #1A1A1A; --bg-card-border: #2A2A2A;
+      --gray-footer: #0A0A0A; --stat-bg: #1A1A1A;
+      --hero-gradient: linear-gradient(135deg, color-mix(in srgb, var(--pink) 18%, #0D0D0D) 0%, #0D0D0D 52%, color-mix(in srgb, var(--pink) 9%, #0D0D0D) 100%);
+      --font-heading: 'Manrope', sans-serif; --font-body: 'Open Sans', sans-serif;
+      color-scheme: dark;
+    }
+    body { font-family: var(--font-body); font-size: 18px; line-height: 1.6; color: var(--text-primary); background: var(--bg-body); }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
+
+    .header { background: var(--bg-header); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 6px 0; border-bottom: 1px solid var(--bg-card-border); position: sticky; top: 0; z-index: 100; }
+    .header .container { display: flex; align-items: center; justify-content: space-between; max-width: 1600px; }
+    .header__logo { font-family: var(--font-heading); font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+    .header__logo span { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-muted); display: block; }
+    .header__logo .header__logo-words { font-size: clamp(20px, 1.7vw, 26px); letter-spacing: 3px; }
+    .header__logo-img { width: 116px; height: 100px; -webkit-mask-image: url('assets/logo.png'); mask-image: url('assets/logo.png'); -webkit-mask-size: 160% 160%; mask-size: 160% 160%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; background: var(--pink); flex-shrink: 0; }
+    .header__back { font-family: var(--font-heading); font-size: 16px; font-weight: 600; color: var(--pink); }
+
+    /* Hero */
+    .page-hero { background: var(--hero-gradient); padding: 100px 0 80px; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, color-mix(in srgb, var(--pink) 6%, transparent) 0%, transparent 70%); border-radius: 50%; }
+    .page-hero h1 { font-family: var(--font-heading); font-size: clamp(36px, 5vw, 56px); font-weight: 800; line-height: 1.1; color: var(--pink); max-width: 700px; margin-bottom: 24px; }
+    .page-hero p { font-size: 18px; line-height: 1.7; color: var(--text-secondary); max-width: 700px; }
+
+    /* Sections */
+    .section { padding: 70px 0; }
+    .section h2 { font-family: var(--font-heading); font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+    .section > p { max-width: 750px; margin-bottom: 16px; color: var(--text-secondary); line-height: 1.7; }
+    .section-divider { border: none; border-top: 1px solid var(--bg-card-border); margin: 0; }
+
+    /* Mission with read-more link */
+    .mission-link { display: inline-block; font-family: var(--font-heading); font-size: 16px; font-weight: 600; color: var(--pink); margin-top: 8px; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* What We Do - 2 large pink gradient cards like Vector */
+    .what-we-do-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+    .wwd-card { border-radius: 20px; padding: 40px; min-height: 360px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; overflow: hidden; }
+    .wwd-card--1 { background: linear-gradient(180deg, color-mix(in srgb, var(--pink) 42%, #170814) 0%, var(--pink) 60%); }
+    .wwd-card--2 { background: linear-gradient(180deg, color-mix(in srgb, var(--pink) 42%, #170814) 0%, var(--pink) 60%); }
+    .wwd-card h3 { font-family: var(--font-heading); font-size: 28px; font-weight: 800; color: #FFF; margin-bottom: 16px; line-height: 1.2; }
+    .wwd-card p { font-size: 15px; color: rgba(255,255,255,0.9); line-height: 1.7; }
+
+    /* Impact paragraph */
+    .impact-section { padding: 70px 0; }
+    .impact-section h2 { font-family: var(--font-heading); font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+    .impact-section p { max-width: 700px; color: var(--text-secondary); line-height: 1.8; font-size: 17px; }
+
+    /* Stats */
+    .stats-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-top: 40px; }
+    .stat-card { background: transparent; padding: 0; text-align: center; }
+    .stat-num { font-family: var(--font-heading); font-size: clamp(48px, 6vw, 72px); font-weight: 800; line-height: 1; margin-bottom: 12px; color: var(--pink); }
+    .stat-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.5; }
+
+    /* Explore section - 3x2 grid like Vector */
+    .explore-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+    .explore-card { padding: 28px 0; }
+    .explore-card::before { content: ''; display: block; width: 60px; height: 4px; background: var(--pink); margin-bottom: 20px; }
+    .explore-card h3 { font-family: var(--font-heading); font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+    .explore-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+
+    /* Team */
+    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; margin-top: 40px; }
+    .team-card { background: transparent; border: none; padding: 0; text-align: center; }
+    .team-card__avatar-wrap { position: relative; width: 200px; height: 220px; margin: 0 auto 16px; }
+    .team-card__blob { position: absolute; bottom: 10px; left: 50%; transform: translateX(-40%); width: 150px; height: 160px; background: var(--pink); opacity: 0.85; }
+    .team-card:nth-child(1) .team-card__blob { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
+    .team-card:nth-child(2) .team-card__blob { border-radius: 58% 42% 55% 45% / 50% 40% 60% 50%; }
+    .team-card:nth-child(3) .team-card__blob { border-radius: 45% 55% 60% 40% / 55% 50% 50% 45%; }
+    .team-card:nth-child(4) .team-card__blob { border-radius: 50% 50% 45% 55% / 40% 55% 45% 60%; }
+    .team-card:nth-child(5) .team-card__blob { border-radius: 55% 45% 50% 50% / 45% 50% 50% 55%; }
+    .team-card__avatar { position: relative; z-index: 1; width: 200px; height: 220px; display: flex; align-items: flex-end; justify-content: center; font-family: var(--font-heading); font-size: 48px; font-weight: 800; color: #FFF; overflow: hidden; }
+    .team-card__avatar img { width: 180px; height: auto; object-fit: contain; filter: grayscale(100%); transition: filter 0.3s; }
+    .team-card:hover .team-card__avatar img { filter: grayscale(0%); }
+    .team-card__role { font-size: 13px; color: var(--pink); font-weight: 600; margin-bottom: 6px; text-transform: capitalize; }
+    .team-card h3 { font-family: var(--font-heading); font-size: 18px; font-weight: 800; margin-bottom: 0; }
+    .team-card__lab { font-size: 13px; color: var(--text-muted); margin-bottom: 0; }
+    .team-card__email { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+    .team-card__email a { color: var(--pink); text-decoration: none; }
+    .team-card__email a:hover { text-decoration: underline; }
+    .team-card p { display: none; }
+    .team-group-title { font-family: var(--font-heading); font-size: 22px; font-weight: 700; color: var(--pink); margin-top: 48px; margin-bottom: 8px; }
+
+    .footer { background: var(--gray-footer); padding: 40px 0; margin-top: 60px; }
+    .footer .container { max-width: 1600px; }
+    .footer p { font-size: 14px; color: var(--text-muted); }
+
+    @media (max-width: 768px) {
+      .header { padding: 4px 0; }
+      .header__logo-img { width: 88px; height: 76px; }
+      .header__logo .header__logo-words { font-size: 18px; letter-spacing: 2px; }
+      .what-we-do-grid, .explore-grid { grid-template-columns: 1fr; }
+      .stats-list { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+  <link rel="stylesheet" href="/assets/responsive.css">
+</head>
+<body>
+  <header class="header"><div class="container" style="max-width:1600px"><a href="index.html" class="header__logo"><div class="header__logo-img"></div><span class="header__logo-words">Georbit</span></a><a href="index.html" class="header__back">&larr; Back to Home</a></div></header>
+
+  <!-- Hero -->
+  <div class="page-hero">
+    <div class="container">
+      <h1>About Georbit</h1>
+      <p>Georbit is an autonomous, independent nonprofit association deeply engaged in research. We turn open scientific inquiry into verifiable implementations through faculty-led laboratories, open-source work, and peer-reviewed publications.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Mission -->
+    <div class="section">
+      <h2>Where research breakthroughs turn into real-world impact</h2>
+      <p>We drive open science and verifiable research across natural language processing, cryptography, distributed systems, and applied AI. Our faculty-led laboratories produce peer-reviewed publications, open-source frameworks, and practical engineering tools that deliver measurable impact.</p>
+      <a href="research.html" class="mission-link">Read more</a>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- What We Do -->
+    <div class="section">
+      <h2>What we do</h2>
+      <div class="what-we-do-grid">
+        <div class="wwd-card wwd-card--1">
+          <h3>Research & Open Science</h3>
+          <p>Georbit advances the frontiers of computing through faculty-led laboratories spanning NLP, cryptography, networks, and applied AI. Our researchers tackle real-world challenges in industrial safety intelligence, disaster risk prediction, and secure communications, while publishing every line of code under open-source licenses. We ensure the research ecosystem has both breakthrough discoveries and verifiable implementations.</p>
+        </div>
+        <div class="wwd-card wwd-card--2">
+          <h3>Talent & Fellowships</h3>
+          <p>We nurture the next generation of researchers through two fellowship tracks — Research With Us for faculty and postdocs, and Research Under Us for students and early-career researchers. Our fellows receive GPU compute allocations, publication support, open-source mentorship, and direct access to faculty laboratory leads. From undergraduate researchers to postdoctoral scholars, we create pathways for talent at every stage.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Impact -->
+    <div class="impact-section">
+      <h2>Georbit's impact</h2>
+      <p>As an autonomous, independent nonprofit association, Georbit is committed to open, reproducible research. Based in New Delhi, with faculty partnerships at Jamia Millia Islamia, Georbit's four operational laboratories produce peer-reviewed publications, open-source systems, and patent filings. Our community connects researchers, fellows, and collaborators across institutions worldwide.</p>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Stats -->
+    <div class="section">
+      <div class="stats-list">
+        <div class="stat-card">
+          <div class="stat-num" data-target="100" data-suffix="%">0%</div>
+          <div class="stat-desc">open-source code on GitHub under MIT / Apache-2.0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-target="4" data-suffix="">0</div>
+          <div class="stat-desc">faculty-led research laboratories</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-target="25" data-suffix="+">0+</div>
+          <div class="stat-desc">publications & patents in peer-reviewed literature</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" data-target="10" data-suffix="+">0+</div>
+          <div class="stat-desc">team members & faculty across labs</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Team -->
+    <div class="section" id="team">
+      <h2>Our Team</h2>
+      <p>The people behind Georbit — executive leadership and faculty advisors driving open science forward.</p>
+
+      <h3 class="team-group-title">Executive Members</h3>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar"><img src="assets/team/mehrab.png" alt="Mehrab Fatma"></div></div>
+          <div class="team-card__role">President</div>
+          <h3>Mehrab Fatma</h3>
+          <div class="team-card__email"><a href="mailto:mehrab@georbit.org">mehrab@georbit.org</a></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar"><img src="assets/team/matrika.png?v=1731500000" alt="Matrika Regmi"></div></div>
+          <div class="team-card__role">Vice President &amp; Director</div>
+          <h3>Matrika Regmi</h3>
+          <div class="team-card__email"><a href="mailto:matrika@georbit.org">matrika@georbit.org</a></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar"><img src="assets/team/ayaan.png" alt="Ayaan Saifi"></div></div>
+          <div class="team-card__role">Secretary</div>
+          <h3>Ayaan Saifi</h3>
+          <div class="team-card__email"><a href="mailto:ayaan@georbit.org">ayaan@georbit.org</a></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar"><img src="assets/team/fareed.png" alt="Fareed Khan"></div></div>
+          <div class="team-card__role">Treasurer</div>
+          <h3>Fareed Khan</h3>
+          <div class="team-card__email"><a href="mailto:fareed@georbit.org">fareed@georbit.org</a></div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar"><img src="assets/team/rehan.png" alt="Rehan Fazal"></div></div>
+          <div class="team-card__role">Executive Member &amp; Technical Head</div>
+          <h3>Rehan Fazal</h3>
+          <div class="team-card__email"><a href="mailto:rehan@georbit.org">rehan@georbit.org</a></div>
+        </div>
+      </div>
+
+      <h3 class="team-group-title" id="faculty" style="scroll-margin-top: 100px;">Faculty Advisors</h3>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar">TA</div></div>
+          <div class="team-card__role">Faculty Lead</div>
+          <h3>Prof. Tanvir Ahmad</h3>
+          <div class="team-card__lab">LAB-TA &middot; NLP & Text Mining</div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar">MA</div></div>
+          <div class="team-card__role">Faculty Lead</div>
+          <h3>Prof. Musheer Ahmad</h3>
+          <div class="team-card__lab">LAB-MA &middot; Cryptographic Systems</div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar">AM</div></div>
+          <div class="team-card__role">Faculty Lead</div>
+          <h3>Prof. Mohammad Amjad</h3>
+          <div class="team-card__lab">LAB-AM &middot; Wireless Networks & IoT</div>
+        </div>
+      </div>
+
+      <h3 class="team-group-title" style="margin-top: 60px;">Research Associates</h3>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar">AK</div></div>
+          <div class="team-card__role">Research Associate</div>
+          <h3>Arjun Kapoor</h3>
+          <div class="team-card__lab">LAB-TA &middot; NLP & Embeddings</div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar">NR</div></div>
+          <div class="team-card__role">Research Associate</div>
+          <h3>Neha Rajput</h3>
+          <div class="team-card__lab">LAB-MA &middot; Post-Quantum Cryptography</div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar">SK</div></div>
+          <div class="team-card__role">Research Associate</div>
+          <h3>Siddharth Kumar</h3>
+          <div class="team-card__lab">LAB-AM &middot; IoT Security</div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar">PV</div></div>
+          <div class="team-card__role">Research Associate</div>
+          <h3>Priya Verma</h3>
+          <div class="team-card__lab">LAB-TA &middot; Information Retrieval</div>
+        </div>
+        <div class="team-card">
+          <div class="team-card__avatar-wrap"><div class="team-card__blob"></div><div class="team-card__avatar">RM</div></div>
+          <div class="team-card__role">Research Associate</div>
+          <h3>Rohit Malhotra</h3>
+          <div class="team-card__lab">LAB-MA &middot; Chaos-based Encryption</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- Explore -->
+    <div class="section">
+      <h2>Explore Georbit</h2>
+      <div class="explore-grid">
+        <div class="explore-card">
+          <h3>Research & Labs</h3>
+          <p>Explore our four faculty-led laboratories and the core research areas driving advances in NLP, cryptography, networks, and applied AI.</p>
+        </div>
+        <div class="explore-card">
+          <h3>Publications</h3>
+          <p>Browse our peer-reviewed research papers, technical systems, and patent filings — all with open-source code on GitHub.</p>
+        </div>
+        <div class="explore-card">
+          <h3>Fellowships</h3>
+          <p>Join Georbit's two-track fellowship program for researchers at every stage, from students to postdoctoral scholars.</p>
+        </div>
+        <div class="explore-card">
+          <h3>Open Source</h3>
+          <p>All our code is public on GitHub under MIT and Apache-2.0. Explore repositories, contribute, and build on our work.</p>
+        </div>
+        <div class="explore-card">
+          <h3>Contact</h3>
+          <p>Connect with Georbit's team to explore research collaborations, fellowship opportunities, and partnerships.</p>
+        </div>
+        <div class="explore-card">
+          <h3>Blog & News</h3>
+          <p>Stay updated with research insights, fellowship announcements, and technical deep dives from Georbit.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer"><div class="container" style="max-width:1600px"><p>&copy; 2026 Generalized Explorations &amp; Opportunities for Research and Breakthroughs in Intelligent Technologies (Georbit) &middot; CC BY 4.0 &middot; Code under MIT</p><div class="footer-social-links"><a class="footer-linkedin" href="https://www.linkedin.com/company/georbit" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52C22 2.68 21.31 2 20.45 2ZM8 18H5V9h3v9ZM6.5 7.73a1.74 1.74 0 1 1 0-3.47 1.74 1.74 0 0 1 0 3.47ZM19 18h-3v-4.4c0-1.05-.02-2.4-1.47-2.4-1.47 0-1.7 1.14-1.7 2.32V18h-3V9h2.88v1.23h.04c.4-.71 1.38-1.46 2.84-1.46 3.04 0 3.6 2 3.6 4.6V18Z"/></svg>LinkedIn</a><a class="footer-github" href="https://github.com/georbit-org" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.16c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.95.1-.75.4-1.25.73-1.54-2.57-.29-5.28-1.28-5.28-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.71 5.4-5.29 5.69.42.36.78 1.06.78 2.14v3.2c0 .31.21.68.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>GitHub</a></div></div></footer>
+  <script>
+  (function(){
+    var nums = document.querySelectorAll('.stat-num[data-target]');
+    var animated = new Set();
+    function animateNum(el){
+      var target = parseInt(el.dataset.target);
+      var suffix = el.dataset.suffix || '';
+      var duration = 1600;
+      var start = performance.now();
+      function tick(now){
+        var p = Math.min((now - start) / duration, 1);
+        var ease = 1 - Math.pow(1 - p, 3);
+        var val = Math.round(ease * target);
+        el.textContent = val + suffix;
+        if(p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting && !animated.has(e.target)){
+          animated.add(e.target);
+          animateNum(e.target);
+        }
+      });
+    }, {threshold: 0.3});
+    nums.forEach(function(n){ obs.observe(n); });
+  })();
+  </script>
+<script>
+(function(){
+  var saved = localStorage.getItem('georbit-theme');
+  if (saved && ['#780606','#4A0404','#58111A','#E32227','#EEB6B5','#E11D48'].indexOf(saved.toUpperCase()) !== -1) { localStorage.removeItem('georbit-theme'); saved = null; }
+  if (saved) {
+    document.documentElement.style.setProperty('--pink', saved);
+  }
+  window.addEventListener('storage', function(event){
+    if (event.key === 'georbit-theme' && event.newValue) document.documentElement.style.setProperty('--pink', event.newValue);
+  });
+})();
+</script>
+</body>
+</html>

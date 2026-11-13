@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research & Labs | Georbit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --pink: #7C3AED; --black: #F0F0F0; --white: #111;
+      --gray-light: #1A1A1A; --gray-footer: #0A0A0A;
+      --text-primary: #F0F0F0; --text-secondary: #BBB; --text-muted: #999;
+      --bg-body: #0D0D0D; --bg-header: rgba(0,0,0,0.65); --bg-card: #1A1A1A; --bg-card-border: #2A2A2A;
+      --gallery-item-bg: #1E1E1E; --input-border: #333;
+      --hero-gradient: linear-gradient(135deg, color-mix(in srgb, var(--pink) 18%, #0D0D0D) 0%, #0D0D0D 52%, color-mix(in srgb, var(--pink) 9%, #0D0D0D) 100%);
+      --font-heading: 'Manrope', sans-serif;
+      --font-body: 'Open Sans', sans-serif;
+      color-scheme: dark;
+    }
+    body { font-family: var(--font-body); font-size: 18px; line-height: 1.6; color: var(--text-primary); background: var(--bg-body); }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
+
+    /* Header - matching Vector */
+    .header { background: var(--bg-header); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 6px 0; border-bottom: 1px solid var(--bg-card-border); position: sticky; top: 0; z-index: 100; }
+    .header .container { display: flex; align-items: center; justify-content: space-between; max-width: 1600px; }
+    .header__logo { font-family: var(--font-heading); font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+    .header__logo span { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-muted); display: block; }
+    .header__logo .header__logo-words { font-size: clamp(20px, 1.7vw, 26px); letter-spacing: 3px; }
+    .header__logo-img { width: 116px; height: 100px; -webkit-mask-image: url('assets/logo.png'); mask-image: url('assets/logo.png'); -webkit-mask-size: 160% 160%; mask-size: 160% 160%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; background: var(--pink); flex-shrink: 0; }
+    .header__back { font-family: var(--font-heading); font-size: 16px; font-weight: 600; color: var(--pink); }
+
+    /* Hero - soft gradient like Vector */
+    .page-hero { background: var(--hero-gradient); padding: 100px 0 80px; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, color-mix(in srgb, var(--pink) 6%, transparent) 0%, transparent 70%); border-radius: 50%; }
+    .breadcrumb { font-family: var(--font-heading); font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--text-muted); }
+    .breadcrumb a:hover { color: var(--pink); }
+    .page-hero h1 { font-family: var(--font-heading); font-size: clamp(36px, 5vw, 56px); font-weight: 800; line-height: 1.1; color: var(--text-primary); max-width: 700px; margin-bottom: 24px; }
+    .page-hero p { font-size: 18px; line-height: 1.7; color: var(--text-secondary); max-width: 700px; }
+
+    /* Sections */
+    .section { padding: 70px 0; }
+    .section h2 { font-family: var(--font-heading); font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+    .section > p { max-width: 750px; margin-bottom: 16px; color: var(--text-secondary); line-height: 1.7; }
+    .section-divider { border: none; border-top: 1px solid var(--bg-card-border); margin: 0; }
+
+    /* Illustrated research labs */
+    .labs-section { position: relative; padding: 78px 0 84px; scroll-margin-top: 88px; }
+    .labs-heading { text-align: center; margin-bottom: 42px; }
+    .labs-eyebrow { display: flex; justify-content: center; align-items: center; gap: 20px; color: var(--text-primary); font-family: var(--font-heading); font-size: 15px; font-weight: 700; letter-spacing: 0.38em; margin-bottom: 12px; }
+    .labs-eyebrow::before, .labs-eyebrow::after { content: ''; width: clamp(34px, 7vw, 90px); height: 1px; background: linear-gradient(90deg, transparent, var(--pink)); }
+    .labs-eyebrow::after { transform: rotate(180deg); }
+    .labs-heading h2 { font-family: var(--font-heading); font-size: clamp(28px, 3.2vw, 42px); font-weight: 800; line-height: 1.2; margin: 0; }
+    .labs-heading h2 span { color: var(--pink); }
+    .research-grid { display: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+    .labs-infographic { width: min(100%, 1200px); aspect-ratio: 1570 / 1002; margin: 0 auto; background: linear-gradient(135deg, color-mix(in srgb, var(--pink) 68%, white) 0%, var(--pink) 52%, color-mix(in srgb, var(--pink) 58%, #10111c) 100%); -webkit-mask: url("assets/research-labs-infographic.png") center / contain no-repeat; mask: url("assets/research-labs-infographic.png") center / contain no-repeat; filter: drop-shadow(0 18px 34px color-mix(in srgb, var(--pink) 22%, transparent)); }
+    .labs-infographic[role="img"] { outline: none; }
+    .research-area { --lab-accent: var(--pink); position: relative; isolation: isolate; min-height: 300px; overflow: hidden; border: 1.5px solid color-mix(in srgb, var(--lab-accent) 78%, white 22%); border-radius: 24px; padding: 24px 30px; background: radial-gradient(ellipse at 82% 16%, color-mix(in srgb, var(--lab-accent) 20%, transparent), transparent 60%), linear-gradient(145deg, color-mix(in srgb, var(--lab-accent) 22%, #151426) 0%, color-mix(in srgb, var(--lab-accent) 14%, #131729) 55%, color-mix(in srgb, var(--lab-accent) 8%, #0d111c) 100%); box-shadow: inset 0 0 34px color-mix(in srgb, var(--lab-accent) 9%, transparent), 0 12px 36px color-mix(in srgb, var(--lab-accent) 8%, transparent); transition: border-color .25s ease, background .25s ease, box-shadow .25s ease; }
+    .research-area--nlp, .research-area--crypto, .research-area--wireless, .research-area--ai { --lab-accent: var(--pink); }
+    .research-area__copy { position: relative; z-index: 2; width: 62%; }
+    .research-area__tag { display: inline-flex; align-items: center; min-height: 32px; padding: 4px 16px; border-radius: 999px; background: color-mix(in srgb, var(--lab-accent) 30%, #11121a); color: var(--text-primary); font-family: var(--font-heading); font-size: 14px; font-weight: 800; letter-spacing: 0.04em; margin-bottom: 8px; }
+    .research-area h3 { font-family: var(--font-heading); font-size: clamp(20px, 1.8vw, 28px); font-weight: 800; margin: 0 0 12px; line-height: 1.18; }
+    .research-area p { color: var(--text-secondary); font-size: 15px; line-height: 1.5; margin: 0; }
+    .research-area__lead { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px !important; color: var(--text-primary) !important; font-size: 14px !important; line-height: 1.45 !important; }
+    .research-area__lead svg { flex: 0 0 25px; color: var(--lab-accent); margin-top: 1px; }
+    .research-area__art { position: absolute; z-index: 1; right: 3%; top: 50%; width: 36%; height: 82%; transform: translateY(-50%); color: var(--lab-accent); filter: drop-shadow(0 0 16px color-mix(in srgb, var(--lab-accent) 30%, transparent)); }
+    .research-area__art svg { display: block; width: 100%; height: 100%; }
+    .research-area__art .soft-fill { fill: color-mix(in srgb, var(--lab-accent) 18%, transparent); }
+    .research-area__art .line { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .research-area__art .fine { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; opacity: 0.7; }
+
+    /* Carousel - ssspin.io style with 3D perspective & glow */
+    .carousel-wrap { position: relative; width: 100vw; margin-left: calc(-50vw + 50%); overflow: hidden; padding: 60px 0 50px; }
+    .carousel-wrap::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -55%); width: 500px; height: 500px; background: radial-gradient(circle, color-mix(in srgb, var(--pink) 18%, transparent) 0%, color-mix(in srgb, var(--pink) 6%, transparent) 40%, transparent 70%); border-radius: 50%; pointer-events: none; z-index: 0; }
+    .carousel-track { display: flex; align-items: center; justify-content: center; perspective: 1200px; position: relative; height: 560px; }
+    .carousel-card { position: absolute; width: 300px; height: 440px; border-radius: 22px; overflow: hidden; cursor: pointer; transition: all 0.65s cubic-bezier(0.23, 1, 0.32, 1); will-change: transform, opacity, filter; border: 1px solid rgba(255,255,255,0.06); }
+    .carousel-card.pos-center { width: 360px; height: 520px; opacity: 1; transform: translateX(-50%) scale(1) rotateY(0deg); z-index: 5; filter: brightness(1); box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 40px color-mix(in srgb, var(--pink) 10%, transparent); border-color: rgba(255,255,255,0.12); left: 50%; }
+    .carousel-card.pos-left1 { opacity: 0.8; transform: translateX(-50%) scale(0.88) rotateY(6deg); z-index: 4; filter: brightness(0.65); left: 24%; }
+    .carousel-card.pos-right1 { opacity: 0.8; transform: translateX(-50%) scale(0.88) rotateY(-6deg); z-index: 4; filter: brightness(0.65); left: 76%; }
+    .carousel-card.pos-left2 { opacity: 0.45; transform: translateX(-50%) scale(0.75) rotateY(12deg); z-index: 3; filter: brightness(0.4) blur(1px); left: 4%; }
+    .carousel-card.pos-right2 { opacity: 0.45; transform: translateX(-50%) scale(0.75) rotateY(-12deg); z-index: 3; filter: brightness(0.4) blur(1px); left: 96%; }
+    .carousel-card.pos-hidden { opacity: 0; transform: translateX(-50%) scale(0.6); z-index: 1; pointer-events: none; left: 50%; }
+    .carousel-card__bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
+    .carousel-card__overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 20%, rgba(0,0,0,0.85) 100%); }
+    .carousel-card__badge { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 10px; padding: 6px 12px; font-family: var(--font-heading); font-size: 11px; font-weight: 700; color: #FFF; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 5px; }
+    .carousel-card__badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); }
+    .carousel-card__content { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px; transition: opacity 0.4s; }
+    .carousel-card__lab { font-family: var(--font-heading); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--pink); margin-bottom: 8px; }
+    .carousel-card__title { font-family: var(--font-heading); font-size: 17px; font-weight: 800; color: #FFF; line-height: 1.3; margin-bottom: 8px; }
+    .carousel-card.pos-center .carousel-card__title { font-size: 21px; }
+    .carousel-card__meta { font-size: 12px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 6px; }
+    .carousel-nav { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 16px; position: relative; z-index: 10; }
+    .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); border: none; cursor: pointer; transition: all 0.3s; padding: 0; }
+    .carousel-dot.active { background: var(--pink); width: 28px; border-radius: 4px; }
+    .carousel-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #FFF; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .carousel-btn:hover { background: var(--pink); border-color: var(--pink); }
+    .carousel-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* Footer */
+    .footer { background: var(--gray-footer); padding: 40px 0; margin-top: 60px; }
+    .footer .container { max-width: 1600px; }
+    .footer p { font-size: 14px; color: var(--text-muted); }
+
+    @media (max-width: 900px) {
+      .research-area { min-height: 320px; padding: 22px; }
+      .research-area__copy { width: 68%; }
+      .research-area__art { right: 0; width: 34%; opacity: 0.82; }
+    }
+    @media (max-width: 768px) {
+      .header { padding: 4px 0; }
+      .header__logo-img { width: 88px; height: 76px; }
+      .header__logo .header__logo-words { font-size: 18px; letter-spacing: 2px; }
+      .labs-section { padding: 56px 0; }
+      .labs-heading { margin-bottom: 28px; }
+      .labs-eyebrow { font-size: 12px; letter-spacing: 0.28em; gap: 12px; }
+      .research-grid, .latest-grid { grid-template-columns: 1fr; }
+      .labs-infographic { display: none; }
+      .research-grid { display: grid; }
+      .research-area__tag { background: #000; border: 0; box-shadow: none; color: #fff; }
+      .research-area { min-height: 300px; }
+      .research-area__copy { width: 72%; }
+      .research-area__art { width: 32%; right: 1%; opacity: 0.68; }
+    }
+    @media (max-width: 520px) {
+      .research-area { min-height: 0; padding: 20px; }
+      .research-area__copy { width: 100%; }
+      .research-area__art { position: relative; top: auto; right: auto; transform: none; width: 58%; height: 150px; margin: 14px 0 -8px auto; opacity: 0.9; }
+      .research-area p { font-size: 14px; }
+    }
+  </style>
+  <link rel="stylesheet" href="/assets/responsive.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container" style="max-width:1600px">
+      <a href="index.html" class="header__logo"><div class="header__logo-img"></div><span class="header__logo-words">Georbit</span></a>
+      <a href="index.html" class="header__back">&larr; Back to Home</a>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> / <a href="research.html">Research & Labs</a> / Core Research Areas</div>
+      <h1>Core Research Areas</h1>
+      <p>Georbit's research spans four strategic areas driving advances in applied computing. Our faculty-led laboratories combine theoretical depth with open-source, production-ready implementations that deliver measurable impact across industry and academia.</p>
+    </div>
+  </div>
+
+  <section class="labs-section" id="labs">
+    <div class="container">
+      <header class="labs-heading">
+        <div class="labs-eyebrow">OUR RESEARCH LABS</div>
+        <h2>Focused Research for <span>Real-World Impact</span></h2>
+      </header>
+
+      <div class="labs-infographic" role="img" aria-label="Our four research laboratories: LAB-TA in NLP and text mining led by Prof. Tanvir Ahmad; LAB-MA in cryptographic systems led by Prof. Musheer Ahmad; LAB-AM in wireless networks led by Prof. Mohammad Amjad; and LAB-SG in applied AI led by Sachin Gaur."></div>
+
+      <div class="research-grid">
+        <article class="research-area research-area--nlp">
+          <div class="research-area__copy">
+            <div class="research-area__tag">LAB-TA</div>
+            <h3>NLP &amp; Text Mining for Industrial Intelligence</h3>
+            <p>We build domain-specific language models and text mining frameworks for industrial safety, academic analysis, and information retrieval, producing reproducible, production-grade NLP pipelines.</p>
+            <p class="research-area__lead"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 21v-2a7.5 7.5 0 0 1 17 0v2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Led by Prof. Tanvir Ahmad at Jamia Millia Islamia</span></p>
+          </div>
+          <div class="research-area__art" aria-hidden="true"><svg viewBox="0 0 240 220"><circle class="soft-fill" cx="126" cy="112" r="92"/><path class="line" d="M72 40h88l22 22v112a9 9 0 0 1-9 9H72a9 9 0 0 1-9-9V49a9 9 0 0 1 9-9zM160 40v24h22M86 83h63M86 103h63M86 123h48M86 143h48"/><rect class="soft-fill" x="23" y="127" width="89" height="42" rx="12"/><rect class="line" x="23" y="127" width="89" height="42" rx="12"/><text x="36" y="154" fill="currentColor" font-size="17" font-family="sans-serif" font-weight="700">NLP</text><rect class="soft-fill" x="140" y="136" width="70" height="42" rx="11"/><rect class="line" x="140" y="136" width="70" height="42" rx="11"/><path class="line" d="M157 163l8-9-8-9m22 0-8 9 8 9"/><rect x="164" y="88" width="8" height="22" rx="3" fill="currentColor" opacity=".85"/><rect x="178" y="79" width="8" height="31" rx="3" fill="currentColor" opacity=".65"/><rect x="192" y="69" width="8" height="41" rx="3" fill="currentColor" opacity=".45"/></svg></div>
+        </article>
+
+        <article class="research-area research-area--crypto">
+          <div class="research-area__copy">
+            <div class="research-area__tag">LAB-MA</div>
+            <h3>Chaos-Based Cryptographic Systems</h3>
+            <p>We investigate chaotic S-Box construction, multimedia encryption, and cryptographic primitives for secure communication, privacy, and cloud security.</p>
+            <p class="research-area__lead"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 21v-2a7.5 7.5 0 0 1 17 0v2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Led by Prof. Musheer Ahmad (LAB-MA)</span></p>
+          </div>
+          <div class="research-area__art" aria-hidden="true"><svg viewBox="0 0 240 220"><path class="fine" d="M11 65c27-39 51 39 78 0s51 39 78 0 39-7 60-27M11 49c27-39 51 39 78 0s51 39 78 0 39-7 60-27M11 81c27-39 51 39 78 0s51 39 78 0 39-7 60-27"/><path class="soft-fill" d="M120 57 184 82v47c0 39-26 66-64 85-38-19-64-46-64-85V82z"/><path class="line" d="M120 57 184 82v47c0 39-26 66-64 85-38-19-64-46-64-85V82z"/><rect class="line" x="95" y="111" width="50" height="39" rx="8"/><path class="line" d="M105 111v-9a15 15 0 0 1 30 0v9m-15 13v11"/><circle cx="120" cy="123" r="4" fill="currentColor"/><path class="fine" d="M21 182h198M35 194h170"/></svg></div>
+        </article>
+
+        <article class="research-area research-area--wireless">
+          <div class="research-area__copy">
+            <div class="research-area__tag">LAB-AM</div>
+            <h3>Wireless Networks &amp; Distributed Systems</h3>
+            <p>We work on mobile ad-hoc networks (MANETs), IoT security, and wireless communication to improve reliability, routing efficiency, and decentralized systems.</p>
+            <p class="research-area__lead"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 21v-2a7.5 7.5 0 0 1 17 0v2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Led by Prof. Mohammad Amjad (LAB-AM)</span></p>
+          </div>
+          <div class="research-area__art" aria-hidden="true"><svg viewBox="0 0 240 220"><path class="line" d="M120 69v111m-24 0h48m-39-16h30m-25-16h20m-15-79 21 111m-28 0 28-111"/><circle cx="120" cy="61" r="8" fill="currentColor"/><path class="line" d="M90 42a42 42 0 0 1 0 38M76 28a62 62 0 0 1 0 66m74-52a42 42 0 0 1 0 38m14-52a62 62 0 0 1 0 66"/><circle class="soft-fill" cx="43" cy="145" r="23"/><circle class="line" cx="43" cy="145" r="23"/><rect class="line" x="32" y="136" width="22" height="15" rx="2"/><path class="line" d="M29 155h28"/><circle class="soft-fill" cx="197" cy="145" r="23"/><circle class="line" cx="197" cy="145" r="23"/><rect class="line" x="188" y="134" width="18" height="22" rx="3"/><path class="fine" d="M43 168l27 17h40m87-17-27 17h-40"/></svg></div>
+        </article>
+
+        <article class="research-area research-area--ai">
+          <div class="research-area__copy">
+            <div class="research-area__tag">LAB-SG</div>
+            <h3>Applied AI &amp; Deep-Tech Engineering</h3>
+            <p>We develop production-grade AI systems, from computer vision to real-time inference and cloud-native ML deployment, bridging research prototypes and scalable systems.</p>
+            <p class="research-area__lead"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 21v-2a7.5 7.5 0 0 1 17 0v2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg><span>Led by Sachin Gaur (LAB-SG), ex-CERN</span></p>
+          </div>
+          <div class="research-area__art" aria-hidden="true"><svg viewBox="0 0 240 220"><rect class="soft-fill" x="73" y="57" width="94" height="94" rx="18"/><rect class="line" x="73" y="57" width="94" height="94" rx="18"/><text x="91" y="116" fill="currentColor" font-size="38" font-family="sans-serif" font-weight="800">AI</text><path class="line" d="M91 57V39m18 18V31m20 26V31m19 26V39m-57 112v18m18-18v26m20-26v26m19-26v-18M73 75H55m18 19H47m26 20H47m26 19H55m112-58h18m-18 19h26m-26 20h26m-26 19h-18"/><path class="fine" d="M168 76h27l12-12h19m-58 30h34l14 14h14m-62 28h27l12 12h19"/><rect class="soft-fill" x="194" y="50" width="38" height="29" rx="7"/><rect class="line" x="194" y="50" width="38" height="29" rx="7"/><circle cx="209" cy="64" r="5" fill="currentColor"/><path class="fine" d="M207 91h21v29h-21m0 17h21v29h-21"/><circle cx="218" cy="106" r="6" fill="none" stroke="currentColor" stroke-width="2"/><path class="line" d="M211 148h13l-7 10z"/></svg></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+    <hr class="section-divider">
+
+    <!-- Latest Research Carousel -->
+    <div class="section">
+      <h2>Latest AI research</h2>
+      <div class="carousel-wrap">
+        <div class="carousel-track" id="carouselTrack">
+
+          <div class="carousel-card" data-index="0">
+            <div class="carousel-card__bg" style="background: linear-gradient(135deg, #1a1040 0%, #2d1b69 50%, #0f1a2e 100%);"></div>
+            <div class="carousel-card__overlay"></div>
+            <div class="carousel-card__badge"><span class="carousel-card__badge-dot"></span> NLP</div>
+            <div class="carousel-card__content">
+              <div class="carousel-card__lab">LAB-TA</div>
+              <div class="carousel-card__title">ASCENSION: Multi-Stage Barrier Extraction for Industrial Safety</div>
+              <div class="carousel-card__meta"><span>2024</span><span>&middot;</span><span>SafetyBERT</span></div>
+            </div>
+          </div>
+
+          <div class="carousel-card" data-index="1">
+            <div class="carousel-card__bg" style="background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);"></div>
+            <div class="carousel-card__overlay"></div>
+            <div class="carousel-card__badge"><span class="carousel-card__badge-dot"></span> AI</div>
+            <div class="carousel-card__content">
+              <div class="carousel-card__lab">LAB-TA</div>
+              <div class="carousel-card__title">RESQ: Multi-Hazard Disaster Risk Modeling & Prediction</div>
+              <div class="carousel-card__meta"><span>2024</span><span>&middot;</span><span>Deep Learning</span></div>
+            </div>
+          </div>
+
+          <div class="carousel-card" data-index="2">
+            <div class="carousel-card__bg" style="background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a0a2e 100%);"></div>
+            <div class="carousel-card__overlay"></div>
+            <div class="carousel-card__badge"><span class="carousel-card__badge-dot"></span> Crypto</div>
+            <div class="carousel-card__content">
+              <div class="carousel-card__lab">LAB-MA</div>
+              <div class="carousel-card__title">Chaos-Based S-Box Construction for Multimedia Encryption</div>
+              <div class="carousel-card__meta"><span>2024</span><span>&middot;</span><span>Chaotic Systems</span></div>
+            </div>
+          </div>
+
+          <div class="carousel-card" data-index="3">
+            <div class="carousel-card__bg" style="background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #1a2a6c 100%);"></div>
+            <div class="carousel-card__overlay"></div>
+            <div class="carousel-card__badge"><span class="carousel-card__badge-dot"></span> Speech</div>
+            <div class="carousel-card__content">
+              <div class="carousel-card__lab">LAB-TA</div>
+              <div class="carousel-card__title">Deep Learning Courtroom Stenography with Speaker Attribution</div>
+              <div class="carousel-card__meta"><span>2024</span><span>&middot;</span><span>Legal Tech</span></div>
+            </div>
+          </div>
+
+          <div class="carousel-card" data-index="4">
+            <div class="carousel-card__bg" style="background: linear-gradient(135deg, #0c2340 0%, #1b4332 50%, #0c2340 100%);"></div>
+            <div class="carousel-card__overlay"></div>
+            <div class="carousel-card__badge"><span class="carousel-card__badge-dot"></span> Networks</div>
+            <div class="carousel-card__content">
+              <div class="carousel-card__lab">LAB-AM</div>
+              <div class="carousel-card__title">Optimized Routing Protocol for Mobile Ad-Hoc Networks</div>
+              <div class="carousel-card__meta"><span>2024</span><span>&middot;</span><span>MANETs</span></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-btn" id="carouselPrev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <div id="carouselDots"></div>
+          <button class="carousel-btn" id="carouselNext"><svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container" style="max-width:1600px">
+      <p>&copy; 2026 Generalized Explorations &amp; Opportunities for Research and Breakthroughs in Intelligent Technologies (Georbit) &middot; CC BY 4.0 &middot; Code under MIT</p>
+      <div class="footer-social-links"><a class="footer-linkedin" href="https://www.linkedin.com/company/georbit" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52C22 2.68 21.31 2 20.45 2ZM8 18H5V9h3v9ZM6.5 7.73a1.74 1.74 0 1 1 0-3.47 1.74 1.74 0 0 1 0 3.47ZM19 18h-3v-4.4c0-1.05-.02-2.4-1.47-2.4-1.47 0-1.7 1.14-1.7 2.32V18h-3V9h2.88v1.23h.04c.4-.71 1.38-1.46 2.84-1.46 3.04 0 3.6 2 3.6 4.6V18Z"/></svg>LinkedIn</a><a class="footer-github" href="https://github.com/georbit-org" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.16c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.95.1-.75.4-1.25.73-1.54-2.57-.29-5.28-1.28-5.28-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.71 5.4-5.29 5.69.42.36.78 1.06.78 2.14v3.2c0 .31.21.68.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span>GitHub</span></a></div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var saved = localStorage.getItem('georbit-theme');
+  if (saved && ['#780606','#4A0404','#58111A','#E32227','#EEB6B5','#E11D48'].indexOf(saved.toUpperCase()) !== -1) { localStorage.removeItem('georbit-theme'); saved = null; }
+  if (saved) {
+    document.documentElement.style.setProperty('--pink', saved);
+  }
+  window.addEventListener('storage', function(event){
+    if (event.key === 'georbit-theme' && event.newValue) document.documentElement.style.setProperty('--pink', event.newValue);
+  });
+})();
+</script>
+<script>
+(function(){
+  var track = document.getElementById('carouselTrack');
+  var cards = Array.from(track.querySelectorAll('.carousel-card'));
+  var dotsWrap = document.getElementById('carouselDots');
+  var prevBtn = document.getElementById('carouselPrev');
+  var nextBtn = document.getElementById('carouselNext');
+  var n = cards.length;
+  var current = Math.floor(n / 2);
+  var autoTimer;
+  var positions = ['pos-left2', 'pos-left1', 'pos-center', 'pos-right1', 'pos-right2', 'pos-hidden'];
+
+  cards.forEach(function(c, i){
+    var dot = document.createElement('button');
+    dot.className = 'carousel-dot';
+    dot.dataset.index = i;
+    dotsWrap.appendChild(dot);
+    c.addEventListener('click', function(){ goTo(i); });
+  });
+  var dots = Array.from(dotsWrap.querySelectorAll('.carousel-dot'));
+
+  function update(){
+    cards.forEach(function(c, i){
+      positions.forEach(function(p){ c.classList.remove(p); });
+      var offset = ((i - current) % n + n) % n;
+      if(offset > Math.floor(n / 2)) offset -= n;
+      var pos;
+      if(offset === 0) pos = 'pos-center';
+      else if(offset === -1) pos = 'pos-left1';
+      else if(offset === 1) pos = 'pos-right1';
+      else if(offset === -2) pos = 'pos-left2';
+      else if(offset === 2) pos = 'pos-right2';
+      else pos = 'pos-hidden';
+      c.classList.add(pos);
+    });
+    dots.forEach(function(d, i){
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function goTo(i){
+    current = ((i % n) + n) % n;
+    update();
+    resetAuto();
+  }
+
+  prevBtn.addEventListener('click', function(){ goTo(current - 1); });
+  nextBtn.addEventListener('click', function(){ goTo(current + 1); });
+
+  dots.forEach(function(d){
+    d.addEventListener('click', function(){ goTo(parseInt(d.dataset.index)); });
+  });
+
+  function resetAuto(){
+    clearInterval(autoTimer);
+    autoTimer = setInterval(function(){
+      goTo(current + 1);
+    }, 4000);
+  }
+
+  update();
+  resetAuto();
+
+  var startX = 0;
+  track.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, {passive: true});
+  track.addEventListener('touchend', function(e){
+    var diff = startX - e.changedTouches[0].clientX;
+    if(Math.abs(diff) > 40){
+      diff > 0 ? goTo(current + 1) : goTo(current - 1);
+    }
+  });
+})();
+</script>
+</body>
+</html>

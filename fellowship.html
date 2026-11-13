@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fellowships | Georbit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --pink: #7C3AED; --text-primary: #F0F0F0; --text-secondary: #BBB; --text-muted: #999;
+      --bg-body: #0D0D0D; --bg-header: rgba(0,0,0,0.65); --bg-card: #1A1A1A; --bg-card-border: #2A2A2A;
+      --gray-footer: #0A0A0A; --gray-light: #141414; --input-border: #333; --bg-input: #1A1A1A;
+      --hero-gradient: linear-gradient(135deg, color-mix(in srgb, var(--pink) 18%, #0D0D0D) 0%, #0D0D0D 52%, color-mix(in srgb, var(--pink) 9%, #0D0D0D) 100%);
+      --font-heading: 'Manrope', sans-serif; --font-body: 'Open Sans', sans-serif;
+      color-scheme: dark;
+    }
+    body { font-family: var(--font-body); font-size: 18px; line-height: 1.6; color: var(--text-primary); background: var(--bg-body); overflow-x: clip; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 25px; }
+    .header { background: var(--bg-header); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 6px 0; border-bottom: 1px solid var(--bg-card-border); position: sticky; top: 0; z-index: 100; }
+    .header .container { display: flex; align-items: center; justify-content: space-between; max-width: 1600px; }
+    .header__logo { font-family: var(--font-heading); font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+    .header__logo span { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 2.5px; color: var(--text-muted); display: block; }
+    .header__logo .header__logo-words { font-size: clamp(20px, 1.7vw, 26px); letter-spacing: 3px; }
+    .header__logo-img { width: 116px; height: 100px; -webkit-mask-image: url('assets/logo.png'); mask-image: url('assets/logo.png'); -webkit-mask-size: 160% 160%; mask-size: 160% 160%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; background: var(--pink); flex-shrink: 0; }
+    .header__back { font-family: var(--font-heading); font-size: 16px; font-weight: 600; color: var(--pink); }
+    .page-hero { background: var(--hero-gradient); padding: 100px 0 80px; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, color-mix(in srgb, var(--pink) 6%, transparent) 0%, transparent 70%); border-radius: 50%; }
+    .breadcrumb { font-family: var(--font-heading); font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+    .breadcrumb a { color: var(--text-muted); }
+    .breadcrumb a:hover { color: var(--pink); }
+    .page-hero h1 { font-family: var(--font-heading); font-size: clamp(36px, 5vw, 56px); font-weight: 800; line-height: 1.1; color: var(--text-primary); max-width: 700px; margin-bottom: 24px; }
+    .page-hero p { font-size: 18px; line-height: 1.7; color: var(--text-secondary); max-width: 700px; }
+    .section { padding: 70px 0; }
+    .section h2 { font-family: var(--font-heading); font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+    .section > p { max-width: 750px; margin-bottom: 16px; color: var(--text-secondary); line-height: 1.7; }
+    .section-divider { border: none; border-top: 1px solid var(--bg-card-border); margin: 0; }
+    /* === FELLOWSHIP TRACKS === */
+    .ft-section {
+      position: relative;
+      background: #0a0a0a;
+      overflow: hidden;
+      padding: 80px 0 0;
+      margin: 0 -25px;
+      width: calc(100% + 50px);
+    }
+    .ft-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative;
+      z-index: 1;
+    }
+    .ft-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 50px;
+    }
+    .ft-label {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ft-label::before {
+      content: '';
+      width: 30px;
+      height: 2px;
+      background: var(--pink);
+    }
+    .ft-layout {
+      display: grid;
+      grid-template-columns: 0.8fr 1fr 1fr;
+      gap: 50px;
+      align-items: start;
+      padding-bottom: 60px;
+    }
+    .ft-intro h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(42px, 5vw, 72px);
+      font-weight: 800;
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 24px;
+    }
+    .ft-intro h2 em {
+      font-style: normal;
+      color: var(--pink);
+      display: block;
+    }
+    .ft-intro-line {
+      width: 40px;
+      height: 3px;
+      background: var(--pink);
+      margin-bottom: 20px;
+    }
+    .ft-intro p {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 300px;
+    }
+    .ft-card {
+      position: relative;
+      padding-top: 60px;
+    }
+    .ft-arc {
+      position: absolute;
+      top: 0;
+      left: 40px;
+      width: 200px;
+      height: 100px;
+      overflow: visible;
+    }
+    .ft-arc svg { width: 200px; height: 100px; }
+    .ft-card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .ft-card--a .ft-card-icon { background: color-mix(in srgb, var(--pink) 12%, transparent); }
+    .ft-card--b .ft-card-icon { background: rgba(255,255,255,0.08); }
+    .ft-track-label {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .ft-card--a .ft-track-label { color: var(--pink); }
+    .ft-card--b .ft-track-label { color: var(--text-muted); }
+    .ft-track-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      max-width: 60px;
+    }
+    .ft-card--a .ft-track-label::after { background: var(--pink); }
+    .ft-card--b .ft-track-label::after { background: var(--text-muted); }
+    .ft-card h3 {
+      font-family: var(--font-heading);
+      font-size: clamp(26px, 2.5vw, 36px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    .ft-card > p {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      max-width: 380px;
+    }
+    .ft-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+    .ft-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .ft-features li svg {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+    }
+    .ft-card--a .ft-features li svg { color: var(--pink); }
+    .ft-card--b .ft-features li svg { color: var(--text-muted); }
+    .ft-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 10px;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+    .ft-cta--a {
+      background: var(--pink);
+      color: #fff;
+    }
+    .ft-cta--a:hover { opacity: 0.85; }
+    .ft-cta--b {
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(8px);
+    }
+    .ft-cta--b:hover { background: rgba(255,255,255,0.14); }
+    .wwo { padding: 61px 0 0; position: relative; left: 50%; transform: translateX(-50%); width: 100vw; height: 864px; margin-left: 0; background: #000; overflow: hidden; }
+    .wwo__heading { max-width: 1800px; margin: 0 auto 76px; padding: 0 85px; font-family: var(--font-heading); font-size: 76px; font-weight: 800; line-height: 1; letter-spacing: -0.04em; }
+    .wwo__heading span { color: var(--pink); }
+    .wwo__bar { display: block; width: 105px; height: 5px; background: var(--pink); margin: 0 0 26px max(85px, calc((100vw - 1800px) / 2 + 85px)); border-radius: 0; }
+    .wwo__layout { position: relative; width: min(100%, 1774px); height: min(38vw, 650px); min-height: 520px; margin: 0 auto; padding: 0; }
+    .wwo__row { position: absolute; inset: 0; display: block; z-index: 2; }
+    .wwo__row--bottom { margin-top: 0; }
+    .wwo__card { position: absolute; display: flex; gap: 20px; align-items: flex-start; }
+    .wwo__row:not(.wwo__row--bottom) .wwo__card:first-child { left: 13%; top: 0; width: 34%; }
+    .wwo__row:not(.wwo__row--bottom) .wwo__card--right { right: 10.5%; top: 0; width: 31%; }
+    .wwo__row--bottom .wwo__card:first-child { left: 4.6%; top: 40%; width: 28%; }
+    .wwo__row--bottom .wwo__card--right { right: 4.8%; top: 39%; width: 24%; }
+    .wwo__card-icon { width: clamp(72px, 7vw, 125px); height: clamp(72px, 7vw, 125px); flex-shrink: 0; }
+    .wwo__card-icon svg { width: 100%; height: 100%; }
+    .wwo__card-body { padding-top: 10px; }
+    .wwo__card-body h3 { font-family: var(--font-heading); font-size: clamp(23px, 2.15vw, 38px); font-weight: 800; line-height: 1.12; margin-bottom: 13px; white-space: nowrap; }
+    .wwo__card-body p { font-size: clamp(15px, 1.3vw, 23px); color: var(--text-primary); line-height: 1.45; max-width: 500px; }
+    .wwo__row--bottom .wwo__card:first-child .wwo__card-body h3 { white-space: normal; max-width: 300px; }
+    .wwo__row--bottom .wwo__card:first-child .wwo__card-body p { max-width: 300px; }
+    .wwo__card--right { flex-direction: row; text-align: left; }
+    .wwo__card--right .wwo__card-body { padding-right: 0; }
+    .wwo__dome { position: absolute; left: 50%; top: 52%; bottom: auto; transform: translateX(-50%); width: min(29vw, 480px) !important; height: auto; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 1; }
+    .wwo__dome svg { display: block; width: 100%; height: auto; filter: brightness(2.2); }
+    .wwo__connectors { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+    .wwo__connectors svg { width: 100%; height: 100%; }
+    .wwo__connectors path:first-child { display: block; }
+    @media (max-width: 680px) {
+      .wwo { height: auto; padding-bottom: 54px; }
+      .wwo__row { position: relative; inset: auto; display: flex; flex-direction: column; gap: 32px; align-items: center; }
+      .wwo__card, .wwo__card--right { flex-direction: column; text-align: center; max-width: 100%; align-items: center; }
+      .wwo__connectors { display: none; }
+      .wwo__layout { height: auto; min-height: 0; padding: 0 24px; }
+      .wwo { width: 100%; left: auto; transform: none; margin-left: 0; }
+      .wwo__heading { padding: 0 24px; margin-bottom: 40px; font-size: clamp(44px, 10vw, 64px); }
+      .wwo__bar { margin-left: 24px; width: 64px; height: 5px; }
+      .wwo__row--bottom { margin-top: 32px; }
+      .wwo__card-icon { width: 72px; height: 72px; }
+      .wwo__row:not(.wwo__row--bottom) .wwo__card:first-child,
+      .wwo__row:not(.wwo__row--bottom) .wwo__card--right,
+      .wwo__row--bottom .wwo__card:first-child,
+      .wwo__row--bottom .wwo__card--right { position: relative; inset: auto; width: 100%; }
+      .wwo__card-body { padding-top: 0; }
+      .wwo__card-body h3 { font-size: 28px; white-space: normal; }
+      .wwo__card-body p { font-size: 17px; }
+      .wwo__dome { position: relative; left: auto; top: auto; transform: none; width: min(100%, 420px) !important; margin: 20px auto 28px; }
+      .wwo__dome svg { width: 100%; }
+    }
+    .apply-section { background: var(--gray-light); border-radius: 24px; padding: 60px 50px; margin-top: 40px; }
+    .apply-section h2 { font-family: var(--font-heading); font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+    .apply-section > p { color: var(--text-secondary); margin-bottom: 24px; }
+    .apply-form { display: flex; flex-direction: column; gap: 16px; max-width: 600px; }
+    .apply-form label { font-size: 14px; font-weight: 600; display: block; margin-bottom: 4px; }
+    .apply-form label em { color: var(--pink); font-style: normal; }
+    .apply-form input, .apply-form select, .apply-form textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--input-border); border-radius: 8px; font-family: var(--font-body); font-size: 16px; background: var(--bg-input); color: var(--text-primary); }
+    .apply-form textarea { min-height: 120px; resize: vertical; }
+    .apply-form button { align-self: flex-start; background: var(--pink); color: #FFF; font-family: var(--font-heading); font-size: 18px; font-weight: 700; padding: 14px 36px; border: none; border-radius: 10px; cursor: pointer; transition: opacity 0.2s; }
+    .apply-form button:hover { opacity: 0.9; }
+    .footer { background: var(--gray-footer); padding: 40px 0; margin-top: 60px; }
+    .footer .container { max-width: 1600px; }
+    .footer p { font-size: 14px; color: var(--text-muted); }
+    @media (max-width: 768px) {
+      .header { padding: 4px 0; }
+      .header__logo-img { width: 88px; height: 76px; }
+      .header__logo .header__logo-words { font-size: 18px; letter-spacing: 2px; }
+      .ft-layout { grid-template-columns: 1fr; gap: 40px; padding-bottom: 60px; }
+.ft-inner { padding: 0 20px; }
+      .ft-section { padding: 50px 0 0; }
+      /* wwo responsive handled inline */
+      .apply-section { padding: 40px 24px; }
+    }
+  </style>
+  <link rel="stylesheet" href="/assets/responsive.css">
+</head>
+<body>
+  <header class="header"><div class="container" style="max-width:1600px"><a href="index.html" class="header__logo"><div class="header__logo-img"></div><span class="header__logo-words">Georbit</span></a><a href="index.html" class="header__back">&larr; Back to Home</a></div></header>
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> / Fellowships</div>
+      <h1>Fellowships & Research Opportunities</h1>
+      <p>Two fellowship tracks for researchers at every stage — from undergraduate students to postdoctoral scholars.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="ft-section">
+      <div class="ft-inner">
+        <div class="ft-top">
+          <div class="ft-label">Fellowship Program</div>
+          <div class="ft-label" style="gap:0;">Georbit Research Institute</div>
+        </div>
+
+        <div class="ft-layout">
+          <div class="ft-intro">
+            <h2>Fellowship<em>Tracks</em></h2>
+            <div class="ft-intro-line"></div>
+            <p>Two complementary research pathways at Georbit &mdash; for independent collaboration and guided research development.</p>
+          </div>
+
+          <div class="ft-card ft-card--a">
+            <div class="ft-arc">
+              <svg viewBox="0 0 200 100" fill="none"><path d="M10 95 A90 90 0 0 1 190 95" stroke="var(--pink)" stroke-width="1.5" fill="none" opacity="0.5"/><circle cx="100" cy="5" r="4" fill="var(--pink)"/></svg>
+            </div>
+            <div class="ft-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 3h6v2H9V3zM8 5v4l-3 8h14l-3-8V5H8zm4 12a2 2 0 100-4 2 2 0 000 4z" stroke="var(--pink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 21h4" stroke="var(--pink)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div class="ft-track-label">Track A</div>
+            <h3>Research With Us</h3>
+            <p>For faculty, postdoctoral scholars, and senior researchers who want to collaborate directly with Georbit's laboratories.</p>
+            <ul class="ft-features">
+              <li><svg viewBox="0 0 24 24" fill="none"><path d="M4 19.5v-15A2.5 2.5 0 016.5 2H20v20H6.5A2.5 2.5 0 014 19.5z" stroke="currentColor" stroke-width="1.5"/><path d="M8 7h8M8 11h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Co-author preprints and papers</li>
+              <li><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Access to GPU compute allocations</li>
+              <li><svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.5"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Direct mentorship from laboratory leads</li>
+              <li><svg viewBox="0 0 24 24" fill="none"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Joint IP and open-source contributions</li>
+              <li><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>6&ndash;12 month engagement, renewable</li>
+            </ul>
+            <a href="#apply" class="ft-cta ft-cta--a">Explore Track A <span>&rarr;</span></a>
+          </div>
+
+          <div class="ft-card ft-card--b">
+            <div class="ft-arc">
+              <svg viewBox="0 0 200 100" fill="none"><path d="M10 95 A90 90 0 0 1 190 95" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" fill="none"/><circle cx="190" cy="95" r="4" fill="rgba(255,255,255,0.5)"/></svg>
+            </div>
+            <div class="ft-card-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2V3zM22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7V3z" stroke="#aaa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="ft-track-label">Track B</div>
+            <h3>Research Under Us</h3>
+            <p>For students, early-career researchers, and associates who want structured mentorship and guided research experience.</p>
+            <ul class="ft-features">
+              <li><svg viewBox="0 0 24 24" fill="none"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5" stroke="currentColor" stroke-width="1.5"/></svg>Structured research internship</li>
+              <li><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Weekly mentorship sessions</li>
+              <li><svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Contribute to active research projects</li>
+              <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M3 21v-1a7 7 0 017-7h4a7 7 0 017 7v1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Letter of recommendation on completion</li>
+              <li><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>3&ndash;6 month engagement with extension option</li>
+            </ul>
+            <a href="#apply" class="ft-cta ft-cta--b">Explore Track B <span>&rarr;</span></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="wwo">
+      <span class="wwo__bar"></span>
+      <h2 class="wwo__heading">What We <span>Offer</span></h2>
+
+      <div class="wwo__layout">
+        <!-- Full-section connector SVG -->
+        <svg class="wwo__connectors" viewBox="0 0 1728 650" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <!-- Large dome arc -->
+          <path d="M564 552 A312 312 0 0 1 1188 552" stroke="rgba(255,255,255,0.42)" stroke-width="2" fill="none"/>
+          <!-- Top-left: line from GPU card down to dot near top of arc -->
+          <polyline points="647,168 744,168 778,256" stroke="var(--pink)" stroke-width="2.5" fill="none"/>
+          <circle cx="778" cy="256" r="11" fill="#000" stroke="var(--pink)" stroke-width="4"/>
+          <circle cx="778" cy="256" r="4" fill="#fff"/>
+          <!-- Top-right: line from Pub card down to dot near top of arc -->
+          <polyline points="1108,148 1008,148 976,256" stroke="var(--pink)" stroke-width="2.5" fill="none"/>
+          <circle cx="976" cy="256" r="11" fill="#000" stroke="var(--pink)" stroke-width="4"/>
+          <circle cx="976" cy="256" r="4" fill="#fff"/>
+          <!-- Bottom-left: dot on arc, short line to Open-Source card -->
+          <circle cx="580" cy="453" r="11" fill="#000" stroke="var(--pink)" stroke-width="4"/>
+          <circle cx="580" cy="453" r="4" fill="#fff"/>
+          <polyline points="580,453 532,397 459,397" stroke="var(--pink)" stroke-width="2.5" fill="none"/>
+          <!-- Bottom-right: dot on arc, short line to Global Network card -->
+          <circle cx="1172" cy="453" r="11" fill="#000" stroke="var(--pink)" stroke-width="4"/>
+          <circle cx="1172" cy="453" r="4" fill="#fff"/>
+          <polyline points="1172,453 1211,397 1261,397" stroke="var(--pink)" stroke-width="2.5" fill="none"/>
+        </svg>
+
+        <!-- Center dome illustration -->
+        <div class="wwo__dome" style="width: 260px;">
+          <svg viewBox="0 0 560 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M66 243h440" stroke="#F2F2F2" stroke-width="4" stroke-linecap="round"/>
+            <image href="assets/microscope-reference.png" x="190" y="0" width="190" height="250" preserveAspectRatio="xMidYMid meet"/>
+            <g stroke="#F2F2F2" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <!-- stacked research books -->
+              <path d="M92 197h106c10 0 14 5 14 11v17H96c-8 0-12-4-12-10v-8c0-6 3-10 8-10Z"/>
+              <path d="M92 226h108c8 0 12 4 12 10v9H88v-12c0-4 1-7 4-7Z"/>
+              <path d="M100 197v17h102M98 226v15h105"/>
+              <path d="M100 197h99" stroke="var(--pink)"/>
+              <!-- laptop with code -->
+              <path d="m400 168 110 0-24 73H376l24-73Z"/>
+              <path d="M368 243h123"/>
+            </g>
+            <g stroke="var(--pink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m409 193-12 13 12 13M435 193l12 13-12 13M428 190l-10 32"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Top row: GPU Compute + Publication Support -->
+        <div class="wwo__row">
+          <div class="wwo__card">
+            <div class="wwo__card-icon">
+              <svg viewBox="0 0 52 52" fill="none"><rect x="14" y="14" width="24" height="24" rx="3" stroke="#fff" stroke-width="1.5"/><rect x="20" y="20" width="12" height="12" rx="1" fill="none" stroke="var(--pink)" stroke-width="2"/><line x1="14" y1="22" x2="8" y2="22" stroke="#fff" stroke-width="1.5"/><line x1="14" y1="30" x2="8" y2="30" stroke="#fff" stroke-width="1.5"/><line x1="38" y1="22" x2="44" y2="22" stroke="#fff" stroke-width="1.5"/><line x1="38" y1="30" x2="44" y2="30" stroke="#fff" stroke-width="1.5"/><line x1="22" y1="14" x2="22" y2="8" stroke="#fff" stroke-width="1.5"/><line x1="30" y1="14" x2="30" y2="8" stroke="#fff" stroke-width="1.5"/><line x1="22" y1="38" x2="22" y2="44" stroke="#fff" stroke-width="1.5"/><line x1="30" y1="38" x2="30" y2="44" stroke="#fff" stroke-width="1.5"/></svg>
+            </div>
+            <div class="wwo__card-body">
+              <h3>GPU Compute</h3>
+              <p>Access to GPU allocations for model training and experimentation.</p>
+            </div>
+          </div>
+          <div class="wwo__card wwo__card--right">
+            <div class="wwo__card-icon">
+              <svg viewBox="0 0 52 52" fill="none"><rect x="10" y="6" width="28" height="36" rx="3" stroke="#fff" stroke-width="1.5"/><path d="M38 14v30a2 2 0 01-2 2H16" stroke="#fff" stroke-width="1.5"/><line x1="16" y1="14" x2="32" y2="14" stroke="var(--pink)" stroke-width="1.5"/><line x1="16" y1="20" x2="32" y2="20" stroke="var(--pink)" stroke-width="1.5"/><line x1="16" y1="26" x2="28" y2="26" stroke="var(--pink)" stroke-width="1.5"/></svg>
+            </div>
+            <div class="wwo__card-body">
+              <h3>Publication Support</h3>
+              <p>End-to-end support for preparing, submitting, and publishing research papers in top-tier venues.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom row: Open-Source Mentorship + Global Network -->
+        <div class="wwo__row wwo__row--bottom">
+          <div class="wwo__card">
+            <div class="wwo__card-icon">
+              <svg viewBox="0 0 52 52" fill="none"><rect x="6" y="10" width="40" height="28" rx="3" stroke="#fff" stroke-width="1.5"/><rect x="14" y="38" width="24" height="4" rx="1" stroke="#fff" stroke-width="1.5"/><path d="M18 19 l-5 5 5 5" stroke="var(--pink)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><line x1="26" y1="17" x2="24" y2="31" stroke="var(--pink)" stroke-width="1.5" stroke-linecap="round"/><path d="M32 19 l5 5 -5 5" stroke="var(--pink)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="wwo__card-body">
+              <h3>Open-Source Mentorship</h3>
+              <p>Learn to build production-quality open-source software alongside experienced engineers and researchers.</p>
+            </div>
+          </div>
+          <div class="wwo__card wwo__card--right">
+            <div class="wwo__card-icon">
+              <svg viewBox="0 0 52 52" fill="none"><circle cx="26" cy="20" r="14" stroke="#fff" stroke-width="1.5"/><ellipse cx="26" cy="20" rx="7" ry="14" stroke="#fff" stroke-width="1"/><line x1="12" y1="20" x2="40" y2="20" stroke="#fff" stroke-width="1"/><line x1="14" y1="13" x2="38" y2="13" stroke="#fff" stroke-width="0.8"/><line x1="14" y1="27" x2="38" y2="27" stroke="#fff" stroke-width="0.8"/><circle cx="34" cy="34" r="9" fill="var(--bg-body)" stroke="var(--pink)" stroke-width="1.5"/><circle cx="30" cy="32" r="2.5" stroke="var(--pink)" stroke-width="1.2"/><circle cx="38" cy="32" r="2.5" stroke="var(--pink)" stroke-width="1.2"/><circle cx="34" cy="38" r="2.5" stroke="var(--pink)" stroke-width="1.2"/><line x1="31.5" y1="34" x2="33" y2="36.5" stroke="var(--pink)" stroke-width="0.8"/><line x1="36.5" y1="34" x2="35" y2="36.5" stroke="var(--pink)" stroke-width="0.8"/></svg>
+            </div>
+            <div class="wwo__card-body">
+              <h3>Global Network</h3>
+              <p>Connect with faculty across multiple institutions, industry practitioners, and fellow researchers worldwide.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="section">
+      <div class="apply-section">
+        <h2>Apply Now</h2>
+        <p>Rolling applications accepted year-round. We review applications on a cohort basis every quarter.</p>
+        <form class="apply-form">
+          <div><label>Full Name <em>*</em></label><input type="text" required placeholder="Your full name"></div>
+          <div><label>Email <em>*</em></label><input type="email" required placeholder="your@email.com"></div>
+          <div><label>Current Affiliation <em>*</em></label><input type="text" required placeholder="University or organization"></div>
+          <div>
+            <label>Fellowship Track <em>*</em></label>
+            <select required>
+              <option value="">Select a track...</option>
+              <option>Track A — Research With Us (Faculty/Postdoc)</option>
+              <option>Track B — Research Under Us (Student/Associate)</option>
+            </select>
+          </div>
+          <div>
+            <label>Research Interest <em>*</em></label>
+            <select required>
+              <option value="">Select primary area...</option>
+              <option>NLP & Text Mining (LAB-TA)</option>
+              <option>Cryptographic Systems (LAB-MA)</option>
+              <option>Wireless Networks & IoT (LAB-AM)</option>
+              <option>Applied AI & Deep-Tech (LAB-SG)</option>
+              <option>Cross-Lab / Multi-Domain</option>
+            </select>
+          </div>
+          <div><label>Tell us about your research</label><textarea placeholder="Briefly describe your research interests and what you hope to accomplish during the fellowship..."></textarea></div>
+          <button type="submit">Submit Application</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer"><div class="container" style="max-width:1600px"><p>&copy; 2026 Generalized Explorations &amp; Opportunities for Research and Breakthroughs in Intelligent Technologies (Georbit) &middot; CC BY 4.0 &middot; Code under MIT</p><div class="footer-social-links"><a class="footer-linkedin" href="https://www.linkedin.com/company/georbit" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52C22 2.68 21.31 2 20.45 2ZM8 18H5V9h3v9ZM6.5 7.73a1.74 1.74 0 1 1 0-3.47 1.74 1.74 0 0 1 0 3.47ZM19 18h-3v-4.4c0-1.05-.02-2.4-1.47-2.4-1.47 0-1.7 1.14-1.7 2.32V18h-3V9h2.88v1.23h.04c.4-.71 1.38-1.46 2.84-1.46 3.04 0 3.6 2 3.6 4.6V18Z"/></svg>LinkedIn</a><a class="footer-github" href="https://github.com/georbit-org" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.16c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.95.1-.75.4-1.25.73-1.54-2.57-.29-5.28-1.28-5.28-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.1 0 4.43-2.71 5.4-5.29 5.69.42.36.78 1.06.78 2.14v3.2c0 .31.21.68.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span>GitHub</span></a></div></div></footer>
+<script>
+(function(){
+  var saved = localStorage.getItem('georbit-theme');
+  if (saved && ['#780606','#4A0404','#58111A','#E32227','#EEB6B5','#E11D48'].indexOf(saved.toUpperCase()) !== -1) { localStorage.removeItem('georbit-theme'); saved = null; }
+  if (saved) {
+    document.documentElement.style.setProperty('--pink', saved);
+  }
+  window.addEventListener('storage', function(event){
+    if (event.key === 'georbit-theme' && event.newValue) document.documentElement.style.setProperty('--pink', event.newValue);
+  });
+})();
+</script>
+  <script src="/assets/forms.js" defer></script>
+</body>
+</html>
