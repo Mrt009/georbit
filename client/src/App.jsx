@@ -14,6 +14,7 @@ function pathFor(page) {
 export default function App() {
   const [page, setPage] = useState(currentPage);
   const [documentData, setDocumentData] = useState(null);
+  const [readyPage, setReadyPage] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function App() {
   useEffect(() => {
     let cancelled = false;
     setDocumentData(null);
+    setReadyPage(null);
     setError("");
     fetch(`/legacy/${page}.html`)
       .then((response) => {
@@ -73,7 +75,16 @@ export default function App() {
     });
 
     let stopped = false;
+    const waitForStylesheet = (node) => new Promise((resolve) => {
+      if (node.sheet) return resolve();
+      const finish = () => resolve();
+      node.addEventListener("load", finish, { once: true });
+      node.addEventListener("error", finish, { once: true });
+      if (node.sheet) finish();
+    });
     const runScripts = async () => {
+      await Promise.all(linkNodes.map(waitForStylesheet));
+      if (stopped) return;
       const host = document.querySelector(".legacy-page");
       for (const source of documentData.scripts) {
         if (stopped || !host) return;
@@ -91,6 +102,8 @@ export default function App() {
           host.append(script);
         }
       }
+      if (stopped) return;
+      setReadyPage(page);
       if (location.hash) requestAnimationFrame(() => document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView());
     };
     runScripts();
@@ -115,9 +128,9 @@ export default function App() {
   }
 
   if (error) return <main className="app-message" role="alert">{error}</main>;
+  const pageReady = documentData?.page === page && readyPage === page;
   return <div className="react-site" onClick={navigate}>
-    {!documentData || documentData.page !== page
-      ? <main className="app-message" aria-live="polite">Loading Georbit…</main>
-      : <div className="legacy-page" dangerouslySetInnerHTML={{ __html: documentData.html }} />}
+    {!pageReady && <main className="app-message" aria-live="polite">Loading Georbit…</main>}
+    {documentData?.page === page && <div className="legacy-page" data-styles-ready={pageReady ? "true" : undefined} dangerouslySetInnerHTML={{ __html: documentData.html }} />}
   </div>;
 }
